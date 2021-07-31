@@ -1,0 +1,121 @@
+@green: #82c8a0;
+@blue: #6698cb;
+@red: #fa5a5a;
+@purple: #cb99c5;
+@cyan: #7fccde;
+@yellow: #f0d264;
+
+.button {
+  padding:25px 25px 10px;
+  display:grid;
+  width:100vw;
+  height: 100%;
+  align-items:center;
+  justify-items:center;
+  background-color:#f7f7f7;
+}
+
+.cont(@count) when (@count > 0) {
+   .cont((@count - 1));
+   .player[order="@{count}"] { grid-row: @count; }
+}
+
+.result {
+  display: grid;
+  align-self:start;
+  width:100%;
+  .cont(99);
+  .player {
+    color:#313131;
+    font-size:18px;
+    font-family:Fira Sans;
+    font-weight:300;
+    display: grid;
+    grid-gap:1em;
+    padding: .25em 1em;
+    grid-template-columns:auto 1fr auto;
+    border-bottom:1px solid tint(#313131, 75);
+    span {
+      display: block;
+    }
+    .order {
+      width:2em;
+    }
+    .name {
+      font-family:Fira Sans;
+      font-weight:300;
+      text-align: left;
+    }
+    .time {
+      text-align: right;
+      span {
+        display: inline-block;
+        width:.55em;
+        &.dot {
+          width:.2em;
+        }
+      }
+    }
+    &:not([order]) {
+      opacity: .5;
+    }
+    &[order="1"] .time {
+      span:nth-last-child(-n+5) {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+.buzzer {
+    border:none;
+    font-size: 500px;
+    font-size: ~"min(500px, 65vw)";
+    width:1em;
+    height:1em;
+    border-radius:50%;
+    transition: all .1s linear;
+    display:block;
+    background: linear-gradient(150deg, #fff 0%, #f7f7f7 33%, #999 100%);
+    border-radius:50%;
+    padding:.12em;
+    box-shadow:0.008em 0.008em .03em fade(#363636, 75);
+    user-select:none;
+    * { font-size: 1em; }
+    .button-flat {
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      background-color:#efefef;
+      display:grid;
+      align-items:center;
+      justify-items:center;
+    }
+    .button-text {
+      text-transform:uppercase;
+      font-family:Roboto Condensed;
+      font-weight:700;
+      font-size:.12em;
+      letter-spacing:.1em;
+      background-color: #565656;
+      color: transparent;
+      text-shadow: .05em .05em .065em fade(#fff, 50);
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      background-clip: text;
+      transition: all .1s linear;
+      pointer-events:none;
+      user-select:none;
+    }
+
+    &:focus { outline:none; }
+    &:active {
+      box-shadow: 0.001em 0.001em 0.012em #363636;
+      .button-text { background-color:#676767; }
+    }
+
+}
+
+.disconnected {
+  opacity: .1 !important;
+}

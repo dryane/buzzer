@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Buzzer</title>
+   <link rel="stylesheet" type="text/css" href="/css/general.css">
+   <link rel="stylesheet" type="text/css" href="/css/client.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+</head>
+<body>
+   <div class="button">
+      <input class="name" value="" placeholder="Player Name">
+      <button class="buzzer">
+         <span class="button-flat">
+            <span class="button-text">Buzz</span>
+         </span>
+      </button>
+      <select name="sounds" id="sounds">
+         <option value="" selected="selected">—</option>
+         <option value="Amoung Us">Amoung Us</option>
+         <option value="Buzzer 1">Buzzer</option>
+         <option value="Buzzer 2">Buzzer 2</option>
+         <option value="Buzzer 3">Buzzer 3</option>
+         <option value="Buzzer 4">Buzzer 4</option>
+         <option value="Buzzer 5">Buzzer 5</option>
+         <option value="Cannon">Cannon</option>
+         <option value="Silent Hill - Siren">Silent Hill - Siren</option>
+         <option value="The Price Is Right - Wrong">The Price Is Right - Wrong</option>
+         <option value="The Voice - Chair">The Voice - Chair</option>
+      </select>
+      <input id="connection" type="checkbox">
+   </div>
+
+<script src = "/socket.io/socket.io.js"></script>
+<script src = "/js/client.js"></script>
+<script src = "/js/general.js"></script>
+</body>
+</html>
