@@ -1,33 +1,56 @@
    var socket = io();
    var r = document.querySelector(".result");
 
-   socket.on('hello_event', () => {
-      socket.emit('declare_host_event');
-   });
+   var room = get_cookie('room');
+   var host_e = document.querySelector("#room");
+   host_e.textContent = room;
+
+   var round = [];
+   var players = {};
+   var players_disconnected = [];
+
+   socket.on("connect", () => {
+   	socket.emit('host_joined');
+	});
    socket.on('update_player_list', (data) => {
-   	if (data['add']) {
-   		update_player_list(data);
-   	} else {
-   		player_disconnected(data);
-   	}
+		update_player_list(data);
    });
+   socket.on("player_connected", (data) => {
+   	if (!data['connected']) {
+   		players_disconnected.push(data['id']);
+   		player_disconnected(data['id']);
+   	} else if ( players_disconnected.includes(data['id']) ) {
+   		players_disconnected = delete_array_item(players_disconnected, data['id']);
+   		player_reconnected(data['id']);
+   	}
+	});
    
    socket.on('connect', () => { });
    
    socket.on('disconnect', () => { });
 
-   socket.on('send_results', (data) => {
-      display_results(data.results);
+   socket.on('player_buzzed', (data) => {
+   	if (!players[data.id]) {
+   		update_player_list(data);
+   	}
+   	if (!players[data.id]['buzzed']) {
+      	update_results(data);
+   	}
+   	socket.emit('send_round_results', round);
    });
 
    function update_player_list(data) {
-   	( document.getElementById(data['id']) ) ? update_player(data) : add_player(data);
+   	if ( !players[data.id] ) {
+   		players[data.id] = data;
+   	}
+   	display_new_player( data );
    }
-   function update_player(data) {
-   	p = document.getElementById(data['id']);
-   	p.querySelector('.name').textContent = data['player'];
-   }
-   function add_player(data) {
+   function display_new_player(data) {
+   	var p;
+   	if ( document.getElementById(data['id']) ) {
+   		p = document.getElementById(data['id']);
+   		p.querySelector('.name').textContent = data['name'];
+   	} else {
    	p = document.createElement('div');
    	p.textContent = '';
       p.setAttribute("id", data['id']);
@@ -38,7 +61,7 @@
 
 	   var n = document.createElement('span');
 	   n.classList.add('name');
-	   n.textContent = data['player'];
+	   n.textContent = data['name'];
 
 	   var t = document.createElement('span');
 	   t.classList.add('time');
@@ -46,29 +69,43 @@
 	   p.append(o);
 	   p.append(n);
 	   p.append(t);
+   		
+   	}
 
 	   r.append(p);
    }
 
-   function player_disconnected(data) {
-   	var p = document.getElementById(data['id']);
+   function player_disconnected(id) {
+   	var p = document.getElementById(id);
    	if ( p ) {
    		p.classList.add('disconnected');
    	}
    }
-   function remove_players(data) {
-   	var players = document.querySelectorAll('.player.disconnected');
-      players.forEach( (e) => {
-      	e.remove();
+
+   function player_reconnected(id) {
+   	var p = document.getElementById(id);
+   	if ( p ) {
+   		p.classList.remove('disconnected');
+   	}
+   }
+   function remove_players() {
+      players_disconnected.forEach( (e) => {
+      	document.getElementById(e).remove();
+      	delete players[e];
       });
+      players_disconnected = [];
    }
 
-   function display_results(data) {
-      data.forEach( (e, i) => {
+   function update_results(data) {
+
+   	round.splice(data['time'], 0, data);
+   	players[data.id]['buzzed'] = true;
+
+      round.forEach( (e, i) => {
 
    		p = document.getElementById(e['id']);
 
-   		if (!p) { add_player(e); }
+   		if (!p) { display_new_player(e); }
 
          var o = p.querySelector('.order');
          o.textContent = placement(i + 1);
@@ -78,7 +115,7 @@
          t.textContent = "";
          var time;
          if ( i > 0 ) {
-         	time = `+${time_difference( e['time'], data[0]['time'] )}s`;
+         	time = `+${time_difference( e['time'], round[0]['time'] )}s`;
          } else {
          	time = `${read_time(e['time'])}.000s`;
          }
@@ -132,17 +169,25 @@
 	}
 
    function reset_clicked() {
-      socket.emit('reset_buzzer_event' );
-      remove_players();
-   	var players = document.querySelectorAll('.player');
-      players.forEach( (e) => {
-      	e.removeAttribute('order');
+      socket.emit('round_reset' );
+
+		for (const key in players) {
+			players[key]['buzzed'] = false;
+			e = document.getElementById(key);
+   		e.removeAttribute('order');
       	e.querySelector('.order').textContent = '';
       	e.querySelector('.time').textContent = '';
-      });
+		}
+   	round = [];
+      remove_players();
    }
 
    function time_difference(one, two) {
+		if (one < two) {
+			var t = two;
+			two = one;
+			one = t;
+		}
 	   var diff = one - two;
 	   var msec = diff;
 	   var hh = Math.floor(msec / 1000 / 60 / 60);
@@ -166,6 +211,12 @@
 	   t = t.split('.')[0];
 	   return t;
 	}
+
+	function end_game() {
+   	socket.emit('end_game');
+	}
+
+   document.querySelector(".close").addEventListener('click', end_game);
 
    document.querySelector("button.reset").addEventListener('mousedown', reset_clicked);
    document.querySelector("button.reset").addEventListener('touchstart', reset_clicked);

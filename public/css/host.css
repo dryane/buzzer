@@ -1,16 +1,42 @@
-.button {
-  padding: 25px 25px 10px;
-  display: grid;
-  width: 100vw;
+main {
+  grid-template-rows: 1fr 1fr;
+}
+#room-info {
+  width: 100%;
   height: 100%;
-  align-items: center;
-  justify-items: center;
-  background-color: #f7f7f7;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+#room {
+  justify-self: center;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  font-family: Fira Sans;
+  text-align: center;
+  font-weight: 300;
+  padding: 0 1em;
+  font-size: max(4vw, 16px);
+  height: 2em;
+  line-height: 2;
+  color: #313131;
+  background-color: transparent;
+  letter-spacing: 0.1em;
+  width: 7.5em;
+  max-width: 100%;
 }
 .result {
   display: grid;
   align-self: start;
+  max-width: 720px;
+  margin: 0 auto;
   width: 100%;
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
 }
 .result .player[order="1"] {
   grid-row: 1;
@@ -342,62 +368,11 @@
   width: 0.2em;
 }
 .result .player:not([order]) {
-  opacity: 0.5;
+  opacity: 0.75;
 }
 .result .player[order="1"] .time span:nth-last-child(-n+5) {
   opacity: 0;
 }
-.buzzer {
-  border: none;
-  font-size: 500px;
-  font-size: min(500px, 65vw);
-  width: 1em;
-  height: 1em;
-  transition: all 0.1s linear;
-  display: block;
-  background: linear-gradient(150deg, #fff 0%, #f7f7f7 33%, #999 100%);
-  border-radius: 50%;
-  padding: 0.12em;
-  box-shadow: 0.008em 0.008em 0.03em rgba(54, 54, 54, 0.75);
-  user-select: none;
-}
-.buzzer * {
-  font-size: 1em;
-}
-.buzzer .button-flat {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: #efefef;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-}
-.buzzer .button-text {
-  text-transform: uppercase;
-  font-family: Roboto Condensed;
-  font-weight: 700;
-  font-size: 0.12em;
-  letter-spacing: 0.1em;
-  background-color: #565656;
-  color: transparent;
-  text-shadow: 0.05em 0.05em 0.065em rgba(255, 255, 255, 0.5);
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  background-clip: text;
-  transition: all 0.1s linear;
-  pointer-events: none;
-  user-select: none;
-}
-.buzzer:focus {
-  outline: none;
-}
-.buzzer:active {
-  box-shadow: 0.001em 0.001em 0.012em #363636;
-}
-.buzzer:active .button-text {
-  background-color: #676767;
-}
 .disconnected {
-  opacity: 0.1 !important;
+  opacity: 0.5 !important;
 }

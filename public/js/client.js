@@ -5,25 +5,40 @@
    var buzzer = document.querySelector(".buzzer");
    var player_name = document.querySelector("input.name");
    var button = document.querySelector(".button");
+   var body = document.querySelector("body");
 
-   socket.on('hello_event', () => {
-      name_changed();
-   });
-   
-   socket.on('connect', () => { connection.checked = true });
-   
-   socket.on('disconnect', () => { connection.checked = false });
+   var name = get_cookie('name');
+   var name_e = document.querySelector("#name");
+   name_e.textContent = name;
 
-   socket.on('round_reset_event', () => {
-      button.classList.remove("first");
-      button.classList.remove("in-queue");
+   socket.on("connect", () => {
+      socket.emit('player_joined');
    });
 
-   socket.on('send_results', (data) => {
-      if (data == 1) {
-         button.classList.add("first");
+   socket.on("end_game", () => {
+      delete_cookie('room');
+      window.location.href = '/';
+   });
+   
+   socket.on('connect', () => {
+      connection.checked = true;
+      socket.emit('player_connected', true);
+   });
+   
+   socket.on('disconnect', () => {
+      connection.checked = false;
+   });
+
+   socket.on('round_reset', () => {
+      body.classList.remove("first");
+      body.classList.remove("in-queue");
+   });
+
+   socket.on('send_round_results', (data) => {
+      if (data['i'] == 0) {
+         body.classList.add("first");
       } else {
-         button.classList.add("in-queue");
+         body.classList.add("in-queue");
       }
    });
 
@@ -34,7 +49,7 @@
 
    function buzzer_clicked() {
       var time = new Date().getTime();
-      socket.emit('buzzer_event', {time} );
+      socket.emit('player_buzzed', {time} );
 
       if (!sound.paused) { sound.currentTime = 0; }
       else { sound.play(); }
@@ -46,5 +61,4 @@
 
    buzzer.addEventListener('mousedown', buzzer_clicked);
    buzzer.addEventListener('touchstart', buzzer_clicked);
-   player_name.addEventListener('change', name_changed);
    sound_selector.addEventListener('change', change_buzzer);

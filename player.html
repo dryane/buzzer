@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Buzzer Host</title>
+   <title>Buzzer</title>
    <link rel="stylesheet" type="text/css" href="/css/general.css">
-   <link rel="stylesheet" type="text/css" href="/css/host.css">
+   <link rel="stylesheet" type="text/css" href="/css/client.css">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
    <meta name="apple-mobile-web-app-title" content="Buzzer" />
    <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,18 +23,29 @@
            <path d="M0,256C0,397.42,114.58,512,256,512S512,397.42,512,256,397.42,0,256,0,0,114.58,0,256Zm462.45,0c0,114.06-92.39,206.45-206.45,206.45S49.55,370.06,49.55,256,141.94,49.55,256,49.55,462.45,141.94,462.45,256Zm-74.32-20.65v41.3A12.42,12.42,0,0,1,375.74,289H256v69.16A12.41,12.41,0,0,1,234.84,367L132.65,264.77a12.37,12.37,0,0,1,0-17.54L234.84,145A12.39,12.39,0,0,1,256,153.81V223H375.74A12.42,12.42,0,0,1,388.13,235.35Z"/>
          </svg>
       </a>
-      <div id="room-info">
-         <div id="room"></div>
-         <div class="result"></div>
-      </div>
-      <button class="buzzer reset">
+      <div id="name"></div>
+      <button class="buzzer">
          <span class="button-flat">
-            <span class="button-text">Reset</span>
+            <span class="button-text">Buzz</span>
          </span>
       </button>
+      <select name="sounds" id="sounds">
+         <option value="" selected="selected">—</option>
+         <option value="Amoung Us">Amoung Us</option>
+         <option value="Buzzer 1">Buzzer</option>
+         <option value="Buzzer 2">Buzzer 2</option>
+         <option value="Buzzer 3">Buzzer 3</option>
+         <option value="Buzzer 4">Buzzer 4</option>
+         <option value="Buzzer 5">Buzzer 5</option>
+         <option value="Cannon">Cannon</option>
+         <option value="Silent Hill - Siren">Silent Hill - Siren</option>
+         <option value="The Price Is Right - Wrong">The Price Is Right - Wrong</option>
+         <option value="The Voice - Chair">The Voice - Chair</option>
+      </select>
+      <input id="connection" type="checkbox">
    </main>
 <script src = "/socket.io/socket.io.js"></script>
 <script src = "/js/general.js"></script>
-<script src = "/js/host.js"></script>
+<script src = "/js/client.js"></script>
 </body>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Buzzer</title>
+	<link rel="stylesheet" type="text/css" href="/css/general.css">
+	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/css/general.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<meta name="apple-mobile-web-app-title" content="Buzzer" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta ink rel="apple-touch-icon" href="apple-touch-icon-iphone.png">
+	<meta link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+	<meta link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+	<meta link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+	<link rel="apple-touch-startup-image" href="iphone-startup.png">
+	<link rel="apple-touch-startup-image" href="ipad-landscape-startup.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)" />
+	<link rel="apple-touch-startup-image" href="ipad-portrait-startup.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)" />
+</head>
+<body>
+	<main>
+	   <div id="page-one">
+			<a href="/host" id="host" class="buzzer">
+				<span class="button-flat">
+					<span class="button-text">Host</span>
+				</span>
+			</a>
+			<button id="player" class="buzzer">
+				<span class="button-flat">
+					<span class="button-text">Player</span>
+				</span>
+			</button>
+		</div>
+		<div id="page-two">
+		   <i href="/" class="close">
+			  <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+				  <path d="M0,256C0,397.42,114.58,512,256,512S512,397.42,512,256,397.42,0,256,0,0,114.58,0,256Zm462.45,0c0,114.06-92.39,206.45-206.45,206.45S49.55,370.06,49.55,256,141.94,49.55,256,49.55,462.45,141.94,462.45,256Zm-74.32-20.65v41.3A12.42,12.42,0,0,1,375.74,289H256v69.16A12.41,12.41,0,0,1,234.84,367L132.65,264.77a12.37,12.37,0,0,1,0-17.54L234.84,145A12.39,12.39,0,0,1,256,153.81V223H375.74A12.42,12.42,0,0,1,388.13,235.35Z"/>
+				</svg>
+			</i>
+			<input type="text" id="name" placeholder="Player Name">
+			<input type="text" id="room" placeholder="Room">
+			<a href="/play" id="play" class="buzzer">
+				<span class="button-flat">
+					<span class="button-text">Play</span>
+				</span>
+			</a>
+		</div>
+	</main>
+<script src = "/js/general.js"></script>
+<script src = "/socket.io/socket.io.js"></script>
+<script src = "/js/index.js"></script>
+<script type="text/javascript">
+	function toggle_class() {
+		var b = document.querySelector('body');
+		if (b.classList.contains('page-two')) {
+			b.classList.remove('page-two');
+		} else {
+			b.classList.add('page-two');
+		}
+	}
+   document.querySelector(".close").addEventListener('click', toggle_class);
+   document.querySelector("#player").addEventListener('click', toggle_class);
+
+</script>
+</body>
+</html>

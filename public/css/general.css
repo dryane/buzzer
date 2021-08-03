@@ -4,8 +4,10 @@ body {
   padding: 0;
 }
 body {
+  background: #fffbf7 url(/img/bg.png);
   height: 100vh;
   display: grid;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -14,8 +16,44 @@ body {
     height: -webkit-fill-available;
   }
 }
+body:after {
+  color: #354458;
+  content: 'Dryane';
+  display: block;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  text-transform: uppercase;
+  font-family: Roboto Condensed;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  opacity: 0.1;
+}
 * {
   box-sizing: border-box;
+}
+main {
+  display: grid;
+  padding: 25px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.close svg {
+  width: 100%;
+  height: 100%;
+  fill: #354458;
 }
 @font-face {
   font-family: 'Fira Mono';
@@ -37,4 +75,56 @@ body {
   font-weight: 700;
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/robotocondensed/v19/ieVi2ZhZI2eCN5jzbjEETS9weq8-32meKCM.ttf) format('truetype');
+}
+.buzzer {
+  border: none;
+  font-size: 250px;
+  font-size: min(250px, 32.5vw);
+  text-decoration: none;
+  width: 1em;
+  height: 1em;
+  transition: box-shadow 0.1s linear;
+  display: block;
+  background: linear-gradient(150deg, #fff 0%, #f7f7f7 33%, #999 100%);
+  border-radius: 50%;
+  padding: 0.12em;
+  box-shadow: 0.008em 0.008em 0.03em rgba(54, 54, 54, 0.75);
+  user-select: none;
+}
+.buzzer * {
+  font-size: 1em;
+}
+.buzzer .button-flat {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #efefef;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+.buzzer .button-text {
+  text-transform: uppercase;
+  font-family: Roboto Condensed;
+  font-weight: 700;
+  font-size: 0.12em;
+  letter-spacing: 0.1em;
+  background-color: #565656;
+  color: transparent;
+  text-shadow: 0.05em 0.05em 0.065em rgba(255, 255, 255, 0.5);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  transition: background-color 0.1s linear;
+  pointer-events: none;
+  user-select: none;
+}
+.buzzer:focus {
+  outline: none;
+}
+.buzzer:active {
+  box-shadow: 0.001em 0.001em 0.012em #363636;
+}
+.buzzer:active .button-text {
+  background-color: #676767;
 }
