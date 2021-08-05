@@ -56,6 +56,7 @@ io.on('connection', function(socket) {
 /* All Clients */
 function add_to_users(socket) {
    var user_info = user_obj(socket);
+   user_info = (user_info) ? user_info : { 'id': socket.id }
    users[user_info['id']] = socket.id;
 }
 /* End All Clients */
